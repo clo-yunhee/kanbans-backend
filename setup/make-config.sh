@@ -33,13 +33,21 @@ Prompt() {
     Define "$1" "$value"
 }
 
+PromptHidden() {
+    printf '%s: ' "$2"
+    read -s value
+    echo
+    value="${value:=}"
+    Define "$1" "$value"
+}
+
 OpenFile
 
 NewSection 'MySQL'
-Prompt DB_NAME 'kanbans'   'Database name'
-Prompt DB_USER 'kanbans'   'Database user name'
-Prompt DB_PASS ''          'Database user password'
-Prompt DB_HOST 'localhost' 'Database hostname'
+Prompt       DB_NAME 'kanbans'   'Database name'
+Prompt       DB_USER 'kanbans'   'Database user name'
+PromptHidden DB_PASS             'Database user password'
+Prompt       DB_HOST 'localhost' 'Database hostname'
 
 CompleteFile
 
