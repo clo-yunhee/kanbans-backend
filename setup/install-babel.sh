@@ -1,3 +1,3 @@
 #!/bin/sh
 
-npm install babel-cli@6 babel-preset-react-app@3
+cd .. && npm install babel-cli@6 babel-preset-react-app@3
