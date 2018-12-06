@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 Prompt() {
     printf '%s [%s]: ' "$2" "$3"
@@ -37,8 +37,9 @@ CREATE DATABASE IF NOT EXISTS $dbname;
 
 CREATE USER IF NOT EXISTS $dbuser;
 
-GRANT SELECT, INSERT, DELETE, UPDATE
-    ON $dbname.* TO '$dbuser'@'$dbhost' IDENTIFIED BY '$dbpass';
+GRANT ALL PRIVILEGES
+    ON $dbname.* TO '$dbuser'@'$dbhost'
+    IDENTIFIED WITH mysql_native_password BY '$dbpass';
 
 EOT
 
