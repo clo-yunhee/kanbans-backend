@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @Entity @Table(name="boards")
+ * @Entity @Table(name="lists")
  **/
-class Taskboard
+class Tasklist
 {
     /**
      * @Id
-     * @Column(type="uuid")
-     * @GeneratedValue(strategy="UUID")
+     * @Column(type="int")
+     * @GeneratedValue
      **/
     protected $id;
 
@@ -19,7 +19,7 @@ class Taskboard
     protected $updatedOn;
 
     /** @Column(type="string") **/
-    protected $boardName;
+    protected $listName;
 
     public function getId() {
         return $this->id;
@@ -37,11 +37,11 @@ class Taskboard
         $this->updatedOn = new DateTime("now");
     }
 
-    public function getBoardName() {
-        return $this->boardName;
+    public function getListName() {
+        return $this->listName;
     }
 
-    public function setBoardName($boardName) {
-        $this->boardName = $boardName;
+    public function setListName($listName) {
+        $this->listName = $listName;
     }
 }
