@@ -2,6 +2,13 @@
 
 import { requestGET } from './ajax.js';
 
-export function fetchItem(self, board_id, list_id, item_id) {
+export function fetchItem(self, boardId, listId, itemId) {
+    requestGET(`/api/get/${boardId}/${listId}/${itemId}`, (res) => {
+        let data = JSON.parse(res.responseText);
 
+        self.content = data.content;
+
+        self.createdOn = data.createdOn;
+        self.updatedOn = data.updatedOn;
+    });
 }

@@ -1,9 +1,13 @@
 'use strict';
 
-import { Taskboard } from '../ui/taskBoard.js';
+import { Taskboard } from '../ui/Taskboard.js';
 
-/* Init and render the thing */
+export function appMain() {
 
-let boardElt = document.querySelector('#taskboard-container');
+    /* Init and render the thing */
 
-ReactDOM.render(<Taskboard board_id="1"></Taskboard>, boardElt);
+    let boardElt = document.querySelector('#taskboard-container');
+
+    ReactDOM.render(<Taskboard boardId="1" />, boardElt);
+
+}

@@ -5,7 +5,7 @@ import { fetchItem } from '../app/fetchItem.js';
 export class Taskitem extends React.Component {
     constructor(props) {
         super(props);
-        fetchItem(this, props.board_id, props.list_id, props.item_id);
+        fetchItem(this, props.boardId, props.listId, props.itemId);
     }
 
     render() {

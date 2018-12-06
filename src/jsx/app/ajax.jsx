@@ -5,9 +5,12 @@
 export function requestGET(url, callback) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
-        if (this.readyState == 4
-                && this.status == 200) {
-            callback(this);
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                callback(this);
+            } else {
+                console.error('Request failed.');
+            }
         }
     }
     xhr.open("GET", url, true);
@@ -16,7 +19,7 @@ export function requestGET(url, callback) {
 
 export function requestPOST(url, data) {
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
+    xhr.open("POST", url, true);js/ui/
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(JSON.stringify(data));
 }
