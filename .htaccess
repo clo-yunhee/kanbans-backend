@@ -10,9 +10,11 @@ RewriteRule \.git - [F,L]
 
 # API routes
 
-RewriteRule ^api/get/([0-9]+)$ api/get/board.php?board_id=$1 [L]
-RewriteRule ^api/get/([0-9]+)/([0-9]+)$ api/get/list.php?board_id=$1&list_id=$2 [L]
-RewriteRule ^api/get/([0-9]+)/([0-9]+)/([0-9]+)$ api/get/item.php?board_id=$1&list_id=$2item_id=$3 [L]
+RewriteRule ^api/get/([0-9]+)$ api/get_board.php?board_id=$1 [L]
+RewriteRule ^api/get/([0-9]+)/([0-9]+)$ api/get_list.php?board_id=$1&list_id=$2 [L]
+RewriteRule ^api/get/([0-9]+)/([0-9]+)/([0-9]+)$ api/get_item.php?board_id=$1&list_id=$2item_id=$3 [L]
+
+RewriteRule ^api/new/board$ api/new_board.php [L]
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^api/(.*)\.php [L,R=404]
