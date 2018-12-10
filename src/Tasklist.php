@@ -34,8 +34,12 @@ class Tasklist implements JsonSerializable
         return $this->id;
     }
 
-    public function getBoardId() {
-        return $this->boardId;
+    public function getBoard() {
+        return $this->board;
+    }
+
+    public function setBoard($board) {
+        $this->board = $board;
     }
 
     public function getCreatedOn() {
@@ -61,7 +65,7 @@ class Tasklist implements JsonSerializable
     public function jsonSerialize() {
         return [
             "_id" => $this->id,
-            "boardId" => $this->board->id,
+            "boardId" => $this->board->getId(),
             "createdOn" => $this->createdOn,
             "updatedOn" => $this->updatedOn,
             "listName" => $this->listName,

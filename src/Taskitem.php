@@ -65,8 +65,8 @@ class Taskitem implements JsonSerializable
     public function jsonSerialize() {
         return [
             "_id" => $this->id,
-            "listId" => $this->list->id,
-            "boardId" => $this->list->board->id,
+            "listId" => $this->list->getId(),
+            "boardId" => $this->list->getBoard()->getId(),
             "createdOn" => $this->createdOn,
             "updatedOn" => $this->updatedOn,
             "content" => $this->content,
