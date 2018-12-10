@@ -17,6 +17,8 @@ RewriteRule ^api/get/([0-9a-z-]+)/([0-9]+)$ api/get_list.php?board_id=$1&list_id
 RewriteRule ^api/get/([0-9a-z-]+)/([0-9]+)/([0-9]+)$ api/get_item.php?board_id=$1&list_id=$2item_id=$3 [L]
 
 RewriteRule ^api/new/board$ api/new_board.php [L]
+RewriteRule ^api/new/list$ api/new_list.php [L]
+#RewriteRule ^api/new/item$ api/new_item.php [L]
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^api/(.*)\.php [L,R=404]
