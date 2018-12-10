@@ -19,7 +19,6 @@ echo '# This script will initialize the app database.'
 echo '# An account with admin privileges is required, but it will only be used for this script.'
 echo
 
-
 Prompt dbhost 'MySQL server host' 'localhost'
 
 Prompt dbuser 'Database username' 'kanbans'
@@ -39,7 +38,7 @@ CREATE USER IF NOT EXISTS $dbuser;
 
 GRANT ALL PRIVILEGES
     ON $dbname.* TO '$dbuser'@'$dbhost'
-    IDENTIFIED WITH mysql_native_password BY '$dbpass';
+    IDENTIFIED BY '$dbpass';
 
 EOT
 
