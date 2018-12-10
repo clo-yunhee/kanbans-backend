@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @Entity @Table(name="items")
+ * @Entity @Table(name="taskitems")
  **/
 class Taskitem implements JsonSerializable
 {
@@ -13,7 +13,7 @@ class Taskitem implements JsonSerializable
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Tasklist")
+     * @ManyToOne(targetEntity="Tasklist", inversedBy="items")
      **/
     protected $list;
 

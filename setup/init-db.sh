@@ -30,15 +30,15 @@ Prompt admuser 'MySQL admin username' 'root'
 PromptHidden admpass 'MySQL admin password'
 
 
-mysql -h "$dbhost" -u "$admuser" -p"$admpass" <<EOT
+mysql -h "$dbhost" -u "$admuser" -p"$admpass" --vertical <<EOT
 
 CREATE DATABASE IF NOT EXISTS $dbname;
 
-CREATE USER IF NOT EXISTS $dbuser;
+CREATE USER IF NOT EXISTS '$dbuser'@'$dbhost'
+    IDENTIFIED BY '$dbpass';
 
 GRANT ALL PRIVILEGES
-    ON $dbname.* TO '$dbuser'@'$dbhost'
-    IDENTIFIED BY '$dbpass';
+    ON $dbname.* TO '$dbuser'@'$dbhost';
 
 EOT
 

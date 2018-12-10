@@ -1,7 +1,9 @@
 <?php
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
- * @Entity @Table(name="lists")
+ * @Entity @Table(name="tasklists")
  **/
 class Tasklist implements JsonSerializable
 {
@@ -12,9 +14,8 @@ class Tasklist implements JsonSerializable
      **/
     protected $id;
 
-    /**
-     * @ManyToOne(targetEntity="Taskboard")
-     **/
+    /** @ManyToOne(targetEntity="Taskboard", inversedBy="lists")
+        @JoinColumn(name="boardId", referencedColumnName="id") **/
     protected $board;
 
     /** @Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"}) **/
@@ -26,8 +27,12 @@ class Tasklist implements JsonSerializable
     /** @Column(type="string") **/
     protected $listName;
 
+    /** @OneToMany(targetEntity="Taskitem", mappedBy="list") */
+    protected $items;
+
     public function __construct() {
         $this->createdOn = new DateTime("now");
+        $this->items = new ArrayCollection();
     }
 
     public function getId() {
@@ -62,6 +67,10 @@ class Tasklist implements JsonSerializable
         $this->listName = $listName;
     }
 
+    public function getItems() {
+        return $this->items;
+    }
+
     public function jsonSerialize() {
         return [
             "_id" => $this->id,
@@ -69,6 +78,7 @@ class Tasklist implements JsonSerializable
             "createdOn" => $this->createdOn,
             "updatedOn" => $this->updatedOn,
             "listName" => $this->listName,
+            "items" => $this->items->toArray(),
         ];
     }
 }

@@ -6,7 +6,7 @@ $rawData = file_get_contents('php://input');
 $data = json_decode($rawData, true);
 
 $boardId = $data['boardId'];
-$name = $data['name'];
+$listName = $data['listName'];
 
 if (!isset($boardId)) {
     dieWithError("Parent board identifier missing");
@@ -18,13 +18,13 @@ if (!isset($parentBoard)) {
     dieWithError("Parent board not found");
 }
 
-if (!isset($name)) {
+if (!isset($listName)) {
     dieWithError("List name missing");
 }
 
-$tasklist = new Tasklist;
+$tasklist = new Tasklist();
 $tasklist->setBoard($parentBoard);
-$tasklist->setListName($name);
+$tasklist->setListName($listName);
 
 $entityManager->persist($tasklist);
 $entityManager->flush();

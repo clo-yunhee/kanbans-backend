@@ -11,7 +11,7 @@ if (!isset($tasklist)) {
     dieWithError("List not found");
 }
 
-if ($tasklist->board->id != $boardId) {
+if ($tasklist->getBoard()->getId() != $boardId) {
     dieWithError("List does not belong to this board");
 }
 

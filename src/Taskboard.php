@@ -1,7 +1,9 @@
 <?php
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
- * @Entity @Table(name="boards")
+ * @Entity @Table(name="taskboards")
  **/
 class Taskboard implements JsonSerializable
 {
@@ -21,8 +23,12 @@ class Taskboard implements JsonSerializable
     /** @Column(type="string") **/
     protected $boardName;
 
+    /** @OneToMany(targetEntity="Tasklist", mappedBy="board") */
+    protected $lists;
+
     public function __construct() {
         $this->createdOn = new DateTime("now");
+        $this->lists = new ArrayCollection();
     }
 
     public function getId() {
@@ -49,12 +55,17 @@ class Taskboard implements JsonSerializable
         $this->boardName = $boardName;
     }
 
+    public function getLists() {
+        return $this->lists;
+    }
+
     public function jsonSerialize() {
         return [
             "_id" => $this->id,
             "createdOn" => $this->createdOn,
             "updatedOn" => $this->updatedOn,
             "boardName" => $this->boardName,
+            "lists" => $this->lists->toArray(),
         ];
     }
 }

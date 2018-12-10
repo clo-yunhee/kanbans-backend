@@ -37,7 +37,7 @@ if (!isset($content)) {
     dieWithError("Item content missing");
 }
 
-$taskitem = new Taskitem;
+$taskitem = new Taskitem();
 $taskitem->setList($parentList);
 $taskitem->setContent($content);
 
