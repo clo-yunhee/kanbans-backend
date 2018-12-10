@@ -2,14 +2,12 @@
 
 require_once "../src/bootstrap.php";
 
-$board_id = $_GET['board_id'];
+$boardId = $_GET['board_id'];
 
-$taskboard = $entityManager->find('Taskboard', $board_id);
+$taskboard = $entityManager->find('Taskboard', $boardId);
 
-if ($taskboard == null) {
-    // no board found
-    echo "{}";
-    exit(1);
+if (!isset($taskboard)) {
+    dieWithError("Board not found");
 }
 
-echo json_encode($taskboard);
+dieOk($taskboard);

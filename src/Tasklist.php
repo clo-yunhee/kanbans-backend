@@ -3,26 +3,39 @@
 /**
  * @Entity @Table(name="lists")
  **/
-class Tasklist
+class Tasklist implements JsonSerializable
 {
     /**
      * @Id
-     * @Column(type="int")
+     * @Column(type="integer")
      * @GeneratedValue
      **/
     protected $id;
 
-    /** @Column(type="datetime") **/
+    /**
+     * @ManyToOne(targetEntity="Taskboard")
+     **/
+    protected $board;
+
+    /** @Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"}) **/
     protected $createdOn;
 
-    /** @Column(type="datetime") **/
+    /** @Column(type="datetime", nullable=TRUE) **/
     protected $updatedOn;
 
     /** @Column(type="string") **/
     protected $listName;
 
+    public function __construct() {
+        $this->createdOn = new DateTime("now");
+    }
+
     public function getId() {
         return $this->id;
+    }
+
+    public function getBoardId() {
+        return $this->boardId;
     }
 
     public function getCreatedOn() {
@@ -43,5 +56,15 @@ class Tasklist
 
     public function setListName($listName) {
         $this->listName = $listName;
+    }
+
+    public function jsonSerialize() {
+        return [
+            "_id" => $this->id,
+            "boardId" => $this->board->id,
+            "createdOn" => $this->createdOn,
+            "updatedOn" => $this->updatedOn,
+            "listName" => $this->listName,
+        ];
     }
 }

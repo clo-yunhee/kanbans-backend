@@ -3,26 +3,43 @@
 /**
  * @Entity @Table(name="items")
  **/
-class Taskitem
+class Taskitem implements JsonSerializable
 {
     /**
      * @Id
-     * @Column(type="int")
+     * @Column(type="integer")
      * @GeneratedValue
      **/
     protected $id;
 
-    /** @Column(type="datetime") **/
+    /**
+     * @ManyToOne(targetEntity="Tasklist")
+     **/
+    protected $list;
+
+    /** @Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"}) **/
     protected $createdOn;
 
-    /** @Column(type="datetime") **/
+    /** @Column(type="datetime", nullable=TRUE) **/
     protected $updatedOn;
 
     /** @Column(type="string") **/
     protected $content;
 
+    public function __construct() {
+        $this->createdOn = new DateTime("now");
+    }
+
     public function getId() {
         return $this->id;
+    }
+
+    public function getList() {
+        return $this->list;
+    }
+
+    public function setList($list) {
+        $this->list = $list;
     }
 
     public function getCreatedOn() {
@@ -43,5 +60,16 @@ class Taskitem
 
     public function setContent($content) {
         $this->content = $content;
+    }
+
+    public function jsonSerialize() {
+        return [
+            "_id" => $this->id,
+            "listId" => $this->list->id,
+            "boardId" => $this->list->board->id,
+            "createdOn" => $this->createdOn,
+            "updatedOn" => $this->updatedOn,
+            "content" => $this->content,
+        ];
     }
 }
