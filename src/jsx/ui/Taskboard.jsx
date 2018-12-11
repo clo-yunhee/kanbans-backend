@@ -1,7 +1,11 @@
 'use strict';
 
+const { DragDropContext } = ReactBeautifulDnd;
+
 import { fetchBoard } from '../app/fetchBoard.js';
 import { parseDateTime } from '../app/parseDateTime.js';
+
+import { taskItemMoved } from '../app/taskItemMoved.js';
 
 import { Tasklist } from './Tasklist.js';
 
@@ -17,13 +21,18 @@ export class Taskboard extends React.Component {
     }
 
     refresh(data) {
+        if (!data) {
+            fetchBoard(this, this.boardId);
+            return;
+        }
+
         this.boardId = data._id;
         this.boardName = data.boardName;
         this.createdOn = parseDateTime(data.createdOn);
         this.updatedOn = parseDateTime(data.updatedOn);
         this.lists = [];
 
-        for (let list of data.lists) {
+        for (const list of data.lists) {
             this.lists.push(
               <Tasklist
                 key={list._id}
@@ -36,12 +45,14 @@ export class Taskboard extends React.Component {
 
     render() {
         return (
-            <div className="taskboard">
-              <header>
-                <h2>{this.boardName}</h2>
-              </header>
-              {this.lists || []}
-            </div>
+            <DragDropContext onDragEnd={taskItemMoved}>
+              <div className="taskboard">
+                <header>
+                  <h2>{this.boardName}</h2>
+                </header>
+                {this.lists || []}
+              </div>
+            </DragDropContext>
         );
     }
 }

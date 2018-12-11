@@ -1,5 +1,7 @@
 'use strict';
 
+const { Droppable } = ReactBeautifulDnd;
+
 import { fetchList } from '../app/fetchList.js';
 import { parseDateTime } from '../app/parseDateTime.js';
 
@@ -34,12 +36,18 @@ export class Tasklist extends React.Component {
 
     render() {
         return (
-            <div className="tasklist">
-              <header>
-                <h4>{this.listName}</h4>
-              </header>
-              {this.items || []}
-            </div>
+            <Droppable droppableId={this.listId}>
+                {(provided, snapshot) => (
+                    <div ref={provided.innerRef}
+                         className="tasklist"
+                         {...provided.droppableProps}>
+                        <header>
+                           <h4>{this.listName}</h4>
+                        </header>
+                        {this.items || []}
+                    </div>
+                )}
+            </Droppable>
         );
     }
 }

@@ -1,5 +1,7 @@
 'use strict';
 
+const { Draggable } = ReactBeautifulDnd;
+
 import { fetchItem } from '../app/fetchItem.js';
 import { parseDateTime } from '../app/parseDateTime.js';
 
@@ -23,15 +25,23 @@ export class Taskitem extends React.Component {
 
     render() {
         return (
-            <div className="taskitem">
-              <p>
-                {this.content}
-              </p>
-              <footer>
-                Last edited {this.createdOn}<br />
-                Last updated {this.updatedOn || "never"}<br />
-              </footer>
-            </div>
+            <Draggable key={this.itemId}
+                       draggableId={this.itemId}>
+                {(provided, snapshot) => (
+                    <div ref={provided.innerRef}
+                         className="taskitem"
+                         {...provided.draggableProps}
+                         {...provided.dragHandleProps}>
+                        <p>
+                            {this.content}
+                        </p>
+                        <footer>
+                            Last edited {this.createdOn}<br />
+                            Last updated {this.updatedOn || "never"}<br />
+                        </footer>
+                    </div>
+                )}
+            </Draggable>
         );
     }
 }
