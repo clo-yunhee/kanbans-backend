@@ -8,36 +8,50 @@ import { parseDateTime } from '../app/parseDateTime.js';
 export class Taskitem extends React.Component {
     constructor(props) {
         super(props);
-
-        if (props.data) {
-            this.refresh(props.data);
-        } else if (props.itemId && props.listId && props.boardId) {
-            fetchItem(this, props.itemId, props.listId, props.boardId);
-        }
+      
+        this.state = {};
+        this.refresh(props.data);
     }
 
     refresh(data) {
-        this.itemId = data._id;
-        this.content = data.content;
-        this.createdOn = parseDateTime(data.createdOn);
-        this.updatedOn = parseDateTime(data.updatedOn);
+        if (!data) {
+            fetchItem(this, this.state.boardId || this.props.boardId,
+                            this.state.listId || this.props.listId,
+                            this.state.itemId || this.props.itemId);
+            return;
+        }
+
+        this.setState({
+            itemId: data._id,
+            listId: data.listId,
+            boardId: data.boardId,
+            content: data.content,
+            index: data.index,
+            createdOn: parseDateTime(data.createdOn),
+            updatedOn: parseDateTime(data.updatedOn)
+        });
     }
 
     render() {
         return (
-            <Draggable key={this.itemId}
-                       draggableId={this.itemId}>
+            <Draggable
+                key={this.state.itemId}
+                draggableId={this.state.itemId.toString()}
+                index={this.state.index}
+            >
                 {(provided, snapshot) => (
-                    <div ref={provided.innerRef}
-                         className="taskitem"
-                         {...provided.draggableProps}
-                         {...provided.dragHandleProps}>
+                    <div
+                        ref={provided.innerRef}
+                        className="taskitem"
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                    >
                         <p>
-                            {this.content}
+                            {this.state.content}
                         </p>
                         <footer>
-                            Last edited {this.createdOn}<br />
-                            Last updated {this.updatedOn || "never"}<br />
+                            Last edited {this.state.createdOn}<br />
+                            Last updated {this.state.updatedOn || "never"}<br />
                         </footer>
                     </div>
                 )}

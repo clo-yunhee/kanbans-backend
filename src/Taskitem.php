@@ -26,6 +26,9 @@ class Taskitem implements JsonSerializable
     /** @Column(type="string") **/
     protected $content;
 
+    /** @Column(type="integer", options={"default"=0}) **/
+    protected $index;
+
     public function __construct() {
         $this->createdOn = new DateTime("now");
     }
@@ -62,6 +65,14 @@ class Taskitem implements JsonSerializable
         $this->content = $content;
     }
 
+    public function getIndex() {
+        return $this->index;
+    }
+
+    public function setIndex($index) {
+        $this->index = $index;
+    }
+
     public function jsonSerialize() {
         return [
             "_id" => $this->id,
@@ -70,6 +81,7 @@ class Taskitem implements JsonSerializable
             "createdOn" => $this->createdOn,
             "updatedOn" => $this->updatedOn,
             "content" => $this->content,
+            "index" => $this->index,
         ];
     }
 }

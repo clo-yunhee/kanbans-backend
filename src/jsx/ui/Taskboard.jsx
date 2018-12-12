@@ -13,45 +13,42 @@ export class Taskboard extends React.Component {
     constructor(props) {
         super(props);
 
-        if (props.data) {
-            this.refresh(props.data);
-        } else if (props.id) {
-            fetchBoard(this, props.id);
-        }
+        this.state = {};
+        this.refresh(props.data);
     }
 
     refresh(data) {
         if (!data) {
-            fetchBoard(this, this.boardId);
+            fetchBoard(this, this.state.boardId || this.props.boardId);
             return;
         }
 
-        this.boardId = data._id;
-        this.boardName = data.boardName;
-        this.createdOn = parseDateTime(data.createdOn);
-        this.updatedOn = parseDateTime(data.updatedOn);
-        this.lists = [];
+        this.setState({
+            boardId: data._id,
+            boardName: data.boardName,
+            createdOn: parseDateTime(data.createdOn),
+            updatedOn: parseDateTime(data.updatedOn),
+            lists: data.lists.map((list) =>
+                <Tasklist
+                    key={list._id}
+                    data={list} />
+            )
+        });
+    }
 
-        for (const list of data.lists) {
-            this.lists.push(
-              <Tasklist
-                key={list._id}
-                data={list} />
-            );
-        }
-
-        this.forceUpdate();
+    findList(id) {
+        return this.state.lists.find((list) => list.props.listId == id);
     }
 
     render() {
         return (
-            <DragDropContext onDragEnd={taskItemMoved}>
-              <div className="taskboard">
-                <header>
-                  <h2>{this.boardName}</h2>
-                </header>
-                {this.lists || []}
-              </div>
+            <DragDropContext onDragEnd={(res) => taskItemMoved(this, res)}>
+                <div className="taskboard">
+                    <header>
+                        <h2>{this.state.boardName}</h2>
+                    </header>
+                    {this.state.lists || []}
+                </div>
             </DragDropContext>
         );
     }

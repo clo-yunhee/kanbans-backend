@@ -11,40 +11,48 @@ export class Tasklist extends React.Component {
     constructor(props) {
         super(props);
 
-        if (props.data) {
-            this.refresh(props.data);
-        } else if (props.listId && props.boardId) {
-            fetchList(this, props.listId, props.boardId);
-        }
+        this.state = {};
+        this.refresh(props.data);
     }
 
     refresh(data) {
-        this.listId = data._id;
-        this.listName = data.listName;
-        this.createdOn = parseDateTime(data.createdOn);
-        this.updatedOn = parseDateTime(data.updatedOn);
-        this.items = [];
-
-        for (let item of data.items) {
-            this.items.push(
-              <Taskitem
-                key={item._id}
-                data={item} />
-            );
+        if (!data) {
+            fetchlist(this, this.state.boardId || this.props.boardId,
+                            this.state.listId || this.props.listId);
+            return;
         }
+
+        this.setState({
+            listId: data._id,
+            boardId: data.boardId,
+            listName: data.listName,
+            createdOn: parseDateTime(data.createdOn),
+            updatedOn: parseDateTime(data.updatedOn),
+            items: data.items.map((item) =>
+                <Taskitem
+                    key={item._id}
+                    data={item} />
+            )
+        });
+    }
+
+    findItem(id) {
+        return this.items.find((item) => item.props.itemId == id);
     }
 
     render() {
         return (
-            <Droppable droppableId={this.listId}>
+            <Droppable droppableId={this.state.listId.toString()}>
                 {(provided, snapshot) => (
-                    <div ref={provided.innerRef}
-                         className="tasklist"
-                         {...provided.droppableProps}>
+                    <div
+                        ref={provided.innerRef}
+                        className="tasklist"
+                        {...provided.droppableProps}
+                    >
                         <header>
-                           <h4>{this.listName}</h4>
+                           <h4>{this.state.listName}</h4>
                         </header>
-                        {this.items || []}
+                        {this.state.items || []}
                     </div>
                 )}
             </Droppable>
