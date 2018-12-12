@@ -2,7 +2,7 @@
 
 const { DragDropContext } = ReactBeautifulDnd;
 
-import { fetchBoard } from '../app/fetchBoard.js';
+import { fetchBoard } from '../app/fetch.js';
 import { parseDateTime } from '../app/parseDateTime.js';
 
 import { taskItemMoved } from '../app/taskItemMoved.js';

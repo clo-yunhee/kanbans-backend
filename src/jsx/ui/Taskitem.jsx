@@ -2,7 +2,7 @@
 
 const { Draggable } = ReactBeautifulDnd;
 
-import { fetchItem } from '../app/fetchItem.js';
+import { fetchItem } from '../app/fetch.js';
 import { parseDateTime } from '../app/parseDateTime.js';
 
 export class Taskitem extends React.Component {
@@ -50,8 +50,8 @@ export class Taskitem extends React.Component {
                             {this.state.content}
                         </p>
                         <footer>
-                            Last edited {this.state.createdOn}<br />
-                            Last updated {this.state.updatedOn || "never"}<br />
+                            Last edited {this.state.createdOn.toLocaleString()}<br />
+                            Last updated {this.state.updatedOn.toLocaleString() || "never"}<br />
                         </footer>
                     </div>
                 )}

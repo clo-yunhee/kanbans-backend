@@ -17,10 +17,10 @@ class Taskitem implements JsonSerializable
      **/
     protected $list;
 
-    /** @Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"}) **/
+    /** @Column(type="datetimetz", options={"default"="CURRENT_TIMESTAMP"}) **/
     protected $createdOn;
 
-    /** @Column(type="datetime", nullable=TRUE) **/
+    /** @Column(type="datetimetz", nullable=TRUE) **/
     protected $updatedOn;
 
     /** @Column(type="string") **/
@@ -78,8 +78,8 @@ class Taskitem implements JsonSerializable
             "_id" => $this->id,
             "listId" => $this->list->getId(),
             "boardId" => $this->list->getBoard()->getId(),
-            "createdOn" => $this->createdOn,
-            "updatedOn" => $this->updatedOn,
+            "createdOn" => $this->createdOn->getTimestamp(),
+            "updatedOn" => $this->updatedOn->getTimestamp(),
             "content" => $this->content,
             "index" => $this->index,
         ];

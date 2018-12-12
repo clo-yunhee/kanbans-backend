@@ -2,7 +2,7 @@
 
 import { Taskboard } from '../ui/Taskboard.js';
 
-import { fetchBoard } from './fetchBoard.js';
+import { fetchBoard } from './fetch.js';
 
 export function appMain() {
 

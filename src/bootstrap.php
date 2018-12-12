@@ -2,16 +2,18 @@
 
 set_include_path(get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT']);
 
+header('Content-Type: application/json');
+
+require_once "vendor/autoload.php";
+
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-require_once "vendor/autoload.php";
+require_once "config/app.php";
 
 // Create a simple "default" Doctrine ORM configuration for Annotations
 $isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__), $isDevMode);
-
-require_once "config/app.php";
 
 // obtaining the entity manager
 $entityManager = EntityManager::create([
@@ -21,7 +23,6 @@ $entityManager = EntityManager::create([
     'password' => DB_PASS,
     'host' => DB_HOST
 ], $config);
-
 
 // generate error output
 function dieWithError($msg) {
@@ -38,5 +39,3 @@ function dieOk($data) {
         "res" => $data
     ]));
 }
-
-header('Content-Type: application/json');

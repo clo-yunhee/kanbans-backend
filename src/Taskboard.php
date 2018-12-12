@@ -14,10 +14,10 @@ class Taskboard implements JsonSerializable
      **/
     protected $id;
 
-    /** @Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"}) **/
+    /** @Column(type="datetimetz", options={"default"="CURRENT_TIMESTAMP"}) **/
     protected $createdOn;
 
-    /** @Column(type="datetime", nullable=TRUE) **/
+    /** @Column(type="datetimetz", nullable=TRUE) **/
     protected $updatedOn;
 
     /** @Column(type="string") **/
@@ -62,8 +62,8 @@ class Taskboard implements JsonSerializable
     public function jsonSerialize() {
         return [
             "_id" => $this->id,
-            "createdOn" => $this->createdOn,
-            "updatedOn" => $this->updatedOn,
+            "createdOn" => $this->createdOn->getTimestamp(),
+            "updatedOn" => $this->updatedOn->getTimestamp(),
             "boardName" => $this->boardName,
             "lists" => $this->lists->toArray(),
         ];

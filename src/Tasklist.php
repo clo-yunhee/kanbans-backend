@@ -18,10 +18,10 @@ class Tasklist implements JsonSerializable
         @JoinColumn(name="boardId", referencedColumnName="id") **/
     protected $board;
 
-    /** @Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"}) **/
+    /** @Column(type="datetimetz", options={"default"="CURRENT_TIMESTAMP"}) **/
     protected $createdOn;
 
-    /** @Column(type="datetime", nullable=TRUE) **/
+    /** @Column(type="datetimetz", nullable=TRUE) **/
     protected $updatedOn;
 
     /** @Column(type="string") **/
@@ -75,8 +75,8 @@ class Tasklist implements JsonSerializable
         return [
             "_id" => $this->id,
             "boardId" => $this->board->getId(),
-            "createdOn" => $this->createdOn,
-            "updatedOn" => $this->updatedOn,
+            "createdOn" => $this->createdOn->getTimestamp(),
+            "updatedOn" => $this->updatedOn->getTimestamp(),
             "listName" => $this->listName,
             "items" => $this->items->toArray(),
         ];

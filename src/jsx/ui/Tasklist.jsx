@@ -2,7 +2,7 @@
 
 const { Droppable } = ReactBeautifulDnd;
 
-import { fetchList } from '../app/fetchList.js';
+import { fetchList } from '../app/fetch.js';
 import { parseDateTime } from '../app/parseDateTime.js';
 
 import { Taskitem } from './Taskitem.js';
