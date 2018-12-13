@@ -1,6 +1,6 @@
 <?php
 
-set_include_path(get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT']);
+set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__DIR__));
 
 header('Content-Type: application/json');
 
@@ -26,16 +26,18 @@ $entityManager = EntityManager::create([
 
 // generate error output
 function dieWithError($msg) {
-    die (json_encode([
+    echo json_encode([
         "error" => true,
         "msg" => $msg
-    ]));
+    ]);
+    die();
 }
 
 // generate no error ouput
 function dieOk($data) {
-    die (json_encode([
+    echo json_encode([
         "error" => false,
         "res" => $data
-    ]));
+    ]);
+    die();
 }
