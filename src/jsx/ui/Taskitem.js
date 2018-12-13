@@ -13,7 +13,10 @@ export class Taskitem extends React.Component {
         this.getId = this.getId.bind(this);
 
         this.state = {};
-        this.refresh(props.data);
+    }
+
+    componentWillMount() {
+        this.refresh(this.props.data);
     }
 
     refresh(data) {
@@ -29,7 +32,7 @@ export class Taskitem extends React.Component {
             listId: data.listId,
             boardId: data.boardId,
             content: data.content,
-            index: data.index,
+            index: data.listIndex,
             createdOn: parseDateTime(data.createdOn),
             updatedOn: parseDateTime(data.updatedOn)
         });

@@ -16,12 +16,15 @@ export class Tasklist extends React.Component {
         this.getId = this.getId.bind(this);
 
         this.state = {};
-        this.refresh(props.data);
+    }
+
+    componentWillMount() {
+        this.refresh(this.props.data);
     }
 
     refresh(data) {
         if (!data) {
-            fetchlist(this, this.state.boardId || this.props.boardId,
+            fetchList(this, this.state.boardId || this.props.boardId,
                             this.state.listId || this.props.listId);
             return;
         }
@@ -32,22 +35,33 @@ export class Tasklist extends React.Component {
             listName: data.listName,
             createdOn: parseDateTime(data.createdOn),
             updatedOn: parseDateTime(data.updatedOn),
-            items: []
+            items: [],
         });
 
+        let domItems = [];
+
         for (const item of data.items) {
-            <Taskitem
-                key={item._id}
-                data={item}
-                ref={it => {
-                    this.setState({
-                        ...this.state,
-                        items: [...this.state.items, it]
-                    });
-                    console.log("ref item");
-                }}
-            />
+            const domItem = (
+                <Taskitem
+                    key={item._id}
+                    data={item}
+                    ref={it => {
+                        this.state.items[item.listIndex] = it;
+                        this.setState({
+                            ...this.state,
+                            items: this.state.items
+                        });
+                    }}
+                />
+            );
+
+            domItems[item.listIndex] = domItem;
         }
+
+        this.setState({
+            ...this.state,
+            domItems: domItems
+        })
     }
 
     findItemIndex(id) {
@@ -72,7 +86,7 @@ export class Tasklist extends React.Component {
                         <header>
                            <h4>{this.state.listName}</h4>
                         </header>
-                        {this.state.items || []}
+                        {this.state.domItems || []}
                     </div>
                 )}
             </Droppable>

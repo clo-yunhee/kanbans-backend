@@ -19,6 +19,9 @@ export class Taskboard extends React.Component {
         this.taskItemMoved = taskItemMoved.bind(this);
 
         this.state = {};
+    }
+
+    componentWillMount() {
         this.refresh(this.props.data);
     }
 
@@ -33,30 +36,36 @@ export class Taskboard extends React.Component {
             boardName: data.boardName,
             createdOn: parseDateTime(data.createdOn),
             updatedOn: parseDateTime(data.updatedOn),
-            lists: []
+            lists: [],
         });
 
-        window.bo = this;
+        let domLists = [];
 
         for (const list of data.lists) {
-            const elt = <Tasklist
-                key={list._id}
-                data={list}
-                ref={it => {
-                    this.setState({
-                        ...this.state,
-                        lists: [...this.state.lists, it]
-                    });
-                    console.log("ref list");
-                }}
-            />;
+            const domList = (
+                <Tasklist
+                    key={list._id}
+                    data={list}
+                    ref={it => {
+                        this.state.lists.push(it);
+                        this.setState({
+                            ...this.state,
+                            lists: this.state.lists
+                        });
+                    }}
+                />
+            );
 
-            this.setState({...this.state, lists: [...this.state.lists, elt]})
+            domLists.push(domList);
         }
+
+        this.setState({
+            ...this.state,
+            domLists: domLists
+        });
     }
 
     findListIndex(id) {
-        console.log(this);
         return this.state.lists.findIndex(list => {
             list.getId().toString() == id
         });
@@ -73,7 +82,7 @@ export class Taskboard extends React.Component {
                     <header>
                         <h2>{this.state.boardName}</h2>
                     </header>
-                    {this.state.lists || []}
+                    {this.state.domLists || []}
                 </div>
             </DragDropContext>
         );

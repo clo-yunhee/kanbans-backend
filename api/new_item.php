@@ -8,6 +8,7 @@ $data = json_decode($rawData, true);
 $boardId = $data['boardId'];
 $listId = $data['listId'];
 $content = $data['content'];
+$listIndex = $data['listIndex'];
 
 if (!isset($boardId)) {
     dieWithError("Parent board identifier missing");
@@ -37,14 +38,17 @@ if (!isset($content)) {
     dieWithError("Item content missing");
 }
 
-$taskitem = new Taskitem();
+if (!isset($listIndex)) {
+    dieWithError("Item list index missing");
+}
+
+$taskitem = new Taskitem($listIndex);
 $taskitem->setList($parentList);
 $taskitem->setContent($content);
+$taskitem->setListIndex($listIndex);
 
 $entityManager->persist($taskitem);
 $entityManager->flush();
 
 dieOk($taskitem);
-
-
 
