@@ -29,16 +29,18 @@ Prompt dbname 'Database name' 'kanbans'
 Prompt admuser 'MySQL admin username' 'root'
 PromptHidden admpass 'MySQL admin password'
 
+defip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+Prompt defip 'User address' "$(defip)"
 
 mysql -h "$dbhost" -u "$admuser" -p"$admpass" --vertical <<EOT
 
 CREATE DATABASE IF NOT EXISTS $dbname;
 
-CREATE USER IF NOT EXISTS '$dbuser'@'$dbhost'
-    IDENTIFIED BY '$dbpass';
+CREATE USER IF NOT EXISTS '$dbuser'@'$defip';
 
 GRANT ALL PRIVILEGES
-    ON $dbname.* TO '$dbuser'@'$dbhost';
+    ON $dbname.* TO '$dbuser'@'$defip'
+    IDENTIFIED BY '$dbpass';
 
 EOT
 
