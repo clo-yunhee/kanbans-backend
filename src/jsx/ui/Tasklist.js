@@ -11,6 +11,10 @@ export class Tasklist extends React.Component {
     constructor(props) {
         super(props);
 
+        this.refresh = this.refresh.bind(this);
+        this.findIndexIndex = this.findItemIndex.bind(this);
+        this.getId = this.getId.bind(this);
+
         this.state = {};
         this.refresh(props.data);
     }
@@ -28,16 +32,32 @@ export class Tasklist extends React.Component {
             listName: data.listName,
             createdOn: parseDateTime(data.createdOn),
             updatedOn: parseDateTime(data.updatedOn),
-            items: data.items.map((item) =>
-                <Taskitem
-                    key={item._id}
-                    data={item} />
-            )
+            items: []
         });
+
+        for (const item of data.items) {
+            <Taskitem
+                key={item._id}
+                data={item}
+                ref={it => {
+                    this.setState({
+                        ...this.state,
+                        items: [...this.state.items, it]
+                    });
+                    console.log("ref item");
+                }}
+            />
+        }
     }
 
-    findItem(id) {
-        return this.items.find((item) => item.props.itemId == id);
+    findItemIndex(id) {
+        return this.state.items.findIndex(item =>
+            item.getId().toString() == id
+        )
+    }
+
+    getId() {
+        return this.state.listId;
     }
 
     render() {

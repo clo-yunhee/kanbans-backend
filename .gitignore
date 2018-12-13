@@ -2,3 +2,5 @@ node_modules/
 vendor/
 config/app.php
 composer.phar
+*.swp
+*.nfs*

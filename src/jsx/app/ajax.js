@@ -9,7 +9,7 @@ export function requestGET(url, callback) {
             if (this.status == 200) {
                 callback(this);
             } else {
-                console.error('Request failed.');
+                console.error('Request failed: ' + this.status);
             }
         }
     }
@@ -19,7 +19,7 @@ export function requestGET(url, callback) {
 
 export function requestPOST(url, data) {
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);js/ui/
+    xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.send(JSON.stringify(data));
 }

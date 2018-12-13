@@ -76,7 +76,7 @@ class Tasklist implements JsonSerializable
             "_id" => $this->id,
             "boardId" => $this->board->getId(),
             "createdOn" => $this->createdOn->getTimestamp(),
-            "updatedOn" => $this->updatedOn->getTimestamp(),
+            "updatedOn" => $this->updatedOn ? $this->updatedOn->getTimestamp() : null,
             "listName" => $this->listName,
             "items" => $this->items->toArray(),
         ];

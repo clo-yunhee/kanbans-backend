@@ -13,8 +13,13 @@ export class Taskboard extends React.Component {
     constructor(props) {
         super(props);
 
+        this.refresh = this.refresh.bind(this);
+        this.findListIndex = this.findListIndex.bind(this);
+        this.getId = this.getId.bind(this);
+        this.taskItemMoved = taskItemMoved.bind(this);
+
         this.state = {};
-        this.refresh(props.data);
+        this.refresh(this.props.data);
     }
 
     refresh(data) {
@@ -28,21 +33,42 @@ export class Taskboard extends React.Component {
             boardName: data.boardName,
             createdOn: parseDateTime(data.createdOn),
             updatedOn: parseDateTime(data.updatedOn),
-            lists: data.lists.map((list) =>
-                <Tasklist
-                    key={list._id}
-                    data={list} />
-            )
+            lists: []
+        });
+
+        window.bo = this;
+
+        for (const list of data.lists) {
+            const elt = <Tasklist
+                key={list._id}
+                data={list}
+                ref={it => {
+                    this.setState({
+                        ...this.state,
+                        lists: [...this.state.lists, it]
+                    });
+                    console.log("ref list");
+                }}
+            />;
+
+            this.setState({...this.state, lists: [...this.state.lists, elt]})
+        }
+    }
+
+    findListIndex(id) {
+        console.log(this);
+        return this.state.lists.findIndex(list => {
+            list.getId().toString() == id
         });
     }
 
-    findList(id) {
-        return this.state.lists.find((list) => list.props.listId == id);
+    getId() {
+        return this.state.boardId;
     }
 
     render() {
         return (
-            <DragDropContext onDragEnd={(res) => taskItemMoved(this, res)}>
+            <DragDropContext onDragEnd={this.taskItemMoved}>
                 <div className="taskboard">
                     <header>
                         <h2>{this.state.boardName}</h2>

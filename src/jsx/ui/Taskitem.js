@@ -8,7 +8,10 @@ import { parseDateTime } from '../app/parseDateTime.js';
 export class Taskitem extends React.Component {
     constructor(props) {
         super(props);
-      
+
+        this.refresh = this.refresh.bind(this);
+        this.getId = this.getId.bind(this);
+
         this.state = {};
         this.refresh(props.data);
     }
@@ -32,6 +35,10 @@ export class Taskitem extends React.Component {
         });
     }
 
+    getId() {
+        return this.state.itemId;
+    }
+
     render() {
         return (
             <Draggable
@@ -51,7 +58,7 @@ export class Taskitem extends React.Component {
                         </p>
                         <footer>
                             Last edited {this.state.createdOn.toLocaleString()}<br />
-                            Last updated {this.state.updatedOn.toLocaleString() || "never"}<br />
+                            Last updated {this.state.updatedOn ? this.state.updatedOn.toLocaleString() : "never"}<br />
                         </footer>
                     </div>
                 )}

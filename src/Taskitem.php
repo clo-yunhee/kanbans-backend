@@ -79,7 +79,7 @@ class Taskitem implements JsonSerializable
             "listId" => $this->list->getId(),
             "boardId" => $this->list->getBoard()->getId(),
             "createdOn" => $this->createdOn->getTimestamp(),
-            "updatedOn" => $this->updatedOn->getTimestamp(),
+            "updatedOn" => $this->updatedOn ? $this->updatedOn->getTimestamp() : null,
             "content" => $this->content,
             "index" => $this->index,
         ];

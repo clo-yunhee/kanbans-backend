@@ -63,7 +63,7 @@ class Taskboard implements JsonSerializable
         return [
             "_id" => $this->id,
             "createdOn" => $this->createdOn->getTimestamp(),
-            "updatedOn" => $this->updatedOn->getTimestamp(),
+            "updatedOn" => $this->updatedOn ? $this->updatedOn->getTimestamp() : null,
             "boardName" => $this->boardName,
             "lists" => $this->lists->toArray(),
         ];
