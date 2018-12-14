@@ -1,6 +1,6 @@
 'use strict';
 
-function reorder(list, startIndex, endIndex) {
+/*function reorder(list, startIndex, endIndex) {
     const result = Array.from(list.state.items);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -20,32 +20,36 @@ function move(source, destination, droppableSource, droppableDestination) {
     result[droppableDestination.droppableId] = destClone;
 
     return result;
-};
+};*/
 
 export function taskItemMoved(result) {
     const { source, destination } = result;
-
-    console.log(source);
-    console.log(destination);
 
     // dropped outside the list
     if (!destination) {
         return;
     }
 
+    const srcInd = this.findListIndex(source.droppableId);
+    const src = this.state.lists[srcInd];
+    const domSrc = this.state.domLists[srcInd];
+
     if (source.droppableId === destination.droppableId) {
-        const listInd = this.findListIndex(source.droppableId);
+        src.reorder([source.index, destination.index]);
 
-        console.log(listInd);
+        this.state.lists[srcInd] = src;
+        this.state.domLists[srcInd] = src.render();
 
-        const list = this.state.lists[listInd];
-
-        this.state.lists[listInd] = reorder.bind(list)(
-            list,
-            source.index,
-            destination.index
-        );
+        this.setState({
+            ...this.state,
+            lists: this.state.lists,
+            domLists: this.state.domLists
+        });
     } else {
+        const destInd = this.findListIndex(destination.droppableId);
+        const dest = this.state.lists[destInd];
+        const domDest = this.state.domLists[destInd];
+
         const result = move(
             this.findList(source.droppableId),
             this.findList(destination.droppableId),

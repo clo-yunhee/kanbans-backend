@@ -15,6 +15,7 @@ export class Taskboard extends React.Component {
 
         this.refresh = this.refresh.bind(this);
         this.findListIndex = this.findListIndex.bind(this);
+        this.reorder = this.reorder.bind(this);
         this.getId = this.getId.bind(this);
         this.taskItemMoved = taskItemMoved.bind(this);
 
@@ -66,8 +67,24 @@ export class Taskboard extends React.Component {
     }
 
     findListIndex(id) {
-        return this.state.lists.findIndex(list => {
-            list.getId().toString() == id
+        return this.state.lists.findIndex(list =>
+            list.state.listId == id);
+    }
+
+    reorder(startIndex, endIndex) {
+        let lists = Array.from(this.state.lists);
+        let doms = Array.from(this.state.domLists);
+
+        const [remList] = lists.splice(firstIndex, 1);
+        const [remDom] = doms.splice(firstIndex, 1);
+
+        lists.splice(endIndex, 0, remList);
+        doms.splice(endIndex, 0, remDom);
+
+        this.setState({
+            ...this.state,
+            lists: lists,
+            domLists: doms
         });
     }
 
@@ -82,7 +99,12 @@ export class Taskboard extends React.Component {
                     <header>
                         <h2>{this.state.boardName}</h2>
                     </header>
-                    {this.state.domLists || []}
+                    {/*{(this.state.lists || []).map(list => (
+                        <Taskboard
+                            key={list._id}
+                            data={list} />
+                    */}
+                    {this.state.domLists}
                 </div>
             </DragDropContext>
         );

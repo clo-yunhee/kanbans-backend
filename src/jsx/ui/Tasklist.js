@@ -13,6 +13,7 @@ export class Tasklist extends React.Component {
 
         this.refresh = this.refresh.bind(this);
         this.findIndexIndex = this.findItemIndex.bind(this);
+        this.reorder = this.reorder.bind(this);
         this.getId = this.getId.bind(this);
 
         this.state = {};
@@ -68,6 +69,23 @@ export class Tasklist extends React.Component {
         return this.state.items.findIndex(item =>
             item.getId().toString() == id
         )
+    }
+
+    reorder(firstIndex, endIndex) {
+        let items = Array.from(this.state.items);
+        let doms = Array.from(this.state.domItems);
+
+        const [remItem] = items.splice(firstIndex, 1);
+        const [remDom] = doms.splice(firstIndex, 1);
+
+        items.splice(endIndex, 0, remItem);
+        doms.splice(endIndex, 0, remDom);
+
+        this.setState({
+            ...this.state,
+            items: items,
+            domItems: doms
+        });
     }
 
     getId() {
