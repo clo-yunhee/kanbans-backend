@@ -23,4 +23,6 @@ RewriteRule ^api/new/item$ api/new_item.php [L]
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^api/(.*)\.php [L,R=404]
 
+# Headers API
 
+#Header set Access-Control-Allow-Origin "*"
