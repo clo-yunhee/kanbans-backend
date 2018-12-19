@@ -41,7 +41,7 @@ if (isset($listIndex)) {
         dieWithError("Item list index not an integer");
     }
 
-    $taskitem->setColumnIndex($listIndex);
+    $taskitem->setListIndex($listIndex);
     $changed = true;
 }
 
