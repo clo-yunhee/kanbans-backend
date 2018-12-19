@@ -30,3 +30,5 @@ RewriteRule ^api/(.*)\.php [L,R=404]
 # Headers API
 
 Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST"
+Header set Access-Control-Allow-Headers "Content-type"
