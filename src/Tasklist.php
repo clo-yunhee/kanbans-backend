@@ -30,9 +30,13 @@ class Tasklist implements JsonSerializable
     /** @OneToMany(targetEntity="Taskitem", mappedBy="list") */
     protected $items;
 
-    public function __construct() {
+    /** @Column(type="integer") **/
+    protected $columnIndex;
+
+    public function __construct($columnIndex) {
         $this->createdOn = new DateTime("now");
         $this->items = new ArrayCollection();
+        $this->columnIndex = $columnIndex;
     }
 
     public function getId() {
@@ -71,6 +75,14 @@ class Tasklist implements JsonSerializable
         return $this->items;
     }
 
+    public function getColumnIndex() {
+        return $this->columnIndex;
+    }
+
+    public function setColumnIndex($columnIndex) {
+        $this->columnIndex = $columnIndex;
+    }
+
     public function jsonSerialize() {
         return [
             "_id" => $this->id,
@@ -79,6 +91,7 @@ class Tasklist implements JsonSerializable
             "updatedOn" => $this->updatedOn ? $this->updatedOn->getTimestamp() : null,
             "listName" => $this->listName,
             "items" => $this->items->toArray(),
+            "columnIndex" => $this->columnIndex,
         ];
     }
 }

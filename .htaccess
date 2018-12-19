@@ -20,9 +20,13 @@ RewriteRule ^api/new/board$ api/new_board.php [L]
 RewriteRule ^api/new/list$ api/new_list.php [L]
 RewriteRule ^api/new/item$ api/new_item.php [L]
 
+RewriteRule ^api/update/board$ api/update_board.php [L]
+RewriteRule ^api/update/list$ api/update_list.php [L]
+RewriteRule ^api/update/item$ api/update_item.php [L]
+
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^api/(.*)\.php [L,R=404]
 
 # Headers API
 
-#Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Origin "*"

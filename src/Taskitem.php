@@ -29,9 +29,9 @@ class Taskitem implements JsonSerializable
     /** @Column(type="integer") **/ 
     protected $listIndex;
 
-    public function __construct($lastIndex) {
+    public function __construct($listIndex) {
         $this->createdOn = new DateTime("now");
-        $this->listIndex = $lastIndex;
+        $this->listIndex = $listIndex;
     }
 
     public function getId() {
