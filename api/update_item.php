@@ -13,7 +13,7 @@ if (!isset($itemId)) {
     dieWithError("Item id missing");
 }
 
-$tasklist = $entityManager->find('Taskitem', $itemId);
+$taskitem = $entityManager->find('Taskitem', $itemId);
 
 if (!isset($taskitem)) {
     dieWithError("Item not found");
@@ -45,7 +45,7 @@ if (isset($listIndex)) {
     $changed = true;
 }
 
-if (!changed) {
+if (!$changed) {
     dieWithError("Item not updated");
 }
 

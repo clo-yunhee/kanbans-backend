@@ -40,7 +40,7 @@ if (isset($columnIndex)) {
     $changed = true;
 }
 
-if (!changed) {
+if (!$changed) {
     dieWithError("List not updated");
 }
 
