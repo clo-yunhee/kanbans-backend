@@ -18,9 +18,8 @@ if (!isset($taskboard)) {
 
 $changed = false;
 
-$boardName = $data['boardName'];
-if (isset($boardName)) {
-    $taskboard->setBoardName($boardName);
+if (array_key_exists('boardName', $data)) {
+    $taskboard->setBoardName($data['boardName']);
     $changed = true;
 }
 

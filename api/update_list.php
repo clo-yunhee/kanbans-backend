@@ -24,14 +24,14 @@ if ($tasklist->getBoard()->getId() != $boardId) {
 
 $changed = false;
 
-$listName = $data['listName'];
-if (isset($listName)) {
-    $tasklist->setListName($listName);
+if (array_key_exists('listName', $data)) {
+    $tasklist->setListName($data['listName']);
     $changed = true;
 }
 
-$columnIndex = $data['columnIndex'];
-if (isset($columnIndex)) {
+if (array_key_exists('columnIndex', $data)) {
+    $columnIndex = $data['columnIndex'];
+
     if (!is_int($columnIndex)) {
         dieWithError("List column index not an integer");
     }

@@ -19,24 +19,41 @@ if (!isset($taskitem)) {
     dieWithError("Item not found");
 }
 
-if ($taskitem->getList()->getId() != $listId) {
-    dieWithError("Item does not belong to this list");
-}
+$destList = $taskitem->getList();
 
-if ($taskitem->getList()->getBoard()->getId() != $boardId) {
+if ($destList->getBoard()->getId() != $boardId) {
     dieWithError("Parent list does not belong to this board");
 }
 
-$changed = false;
+$doChangeList = ($destList->getId() != $listId);
+if ($doChangeList) {
+    // check if dest list exists
+    $destList = $entityManager->find('Tasklist', $listId);
 
-$content = $data['content'];
-if (isset($content)) {
-    $taskitem->setContent($content);
+    if (!isset($destList)) {
+        dieWithError("New parent list not found");
+    }
+
+    if ($destList->getBoard()->getId() != $boardId) {
+        dieWithError("New parent list does not belong to this board");
+    }
+}
+
+$changed = true;
+
+if ($doChangeList) {
+    $taskitem->setList($destList);
     $changed = true;
 }
 
-$listIndex = $data['listIndex'];
-if (isset($listIndex)) {
+if (array_key_exists('content', $data)) {
+    $taskitem->setContent($data['content']);
+    $changed = true;
+}
+
+if (array_key_exists('listIndex', $data)) {
+    $listIndex = $data['listIndex'];
+    
     if (!is_int($listIndex)) {
         dieWithError("Item list index not an integer");
     }
