@@ -19,13 +19,13 @@ if (!isset($taskitem)) {
     dieWithError("Item not found");
 }
 
-$destList = $taskitem->getList();
+$srcList = $taskitem->getList();
 
-if ($destList->getBoard()->getId() != $boardId) {
+if ($srcList->getBoard()->getId() != $boardId) {
     dieWithError("Parent list does not belong to this board");
 }
 
-$doChangeList = ($destList->getId() != $listId);
+$doChangeList = ($srcList->getId() != $listId);
 if ($doChangeList) {
     // check if dest list exists
     $destList = $entityManager->find('Tasklist', $listId);
@@ -39,7 +39,7 @@ if ($doChangeList) {
     }
 }
 
-$changed = true;
+$changed = false;
 
 if ($doChangeList) {
     $taskitem->setList($destList);
