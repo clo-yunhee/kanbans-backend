@@ -22,11 +22,8 @@ if ($tasklist->getBoard()->getId() != $boardId) {
     dieWithError("List does not belong to this board");
 }
 
-$changed = false;
-
 if (array_key_exists('listName', $data)) {
     $tasklist->setListName($data['listName']);
-    $changed = true;
 }
 
 if (array_key_exists('columnIndex', $data)) {
@@ -37,14 +34,11 @@ if (array_key_exists('columnIndex', $data)) {
     }
 
     $tasklist->setColumnIndex($columnIndex);
-    $changed = true;
 }
 
-if (!$changed) {
+if (!$tasklist->hasChanged()) {
     dieWithError("List not updated");
 }
-
-$tasklist->setUpdatedOn();
 
 $entityManager->persist($tasklist);
 $entityManager->flush();

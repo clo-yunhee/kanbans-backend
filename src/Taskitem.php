@@ -29,9 +29,13 @@ class Taskitem implements JsonSerializable
     /** @Column(type="integer") **/ 
     protected $listIndex;
 
+    /* marker for update */
+    private $changed;
+
     public function __construct($listIndex) {
         $this->createdOn = new DateTime("now");
         $this->listIndex = $listIndex;
+        $this->changed = false;
     }
 
     public function getId() {
@@ -56,6 +60,7 @@ class Taskitem implements JsonSerializable
 
     public function setUpdatedOn() {
         $this->updatedOn = new DateTime("now");
+        $this->changed = true;
     }
 
     public function getContent() {
@@ -64,6 +69,7 @@ class Taskitem implements JsonSerializable
 
     public function setContent($content) {
         $this->content = $content;
+        $this->setUpdatedOn();
     }
 
     public function getListIndex() {
@@ -72,6 +78,10 @@ class Taskitem implements JsonSerializable
 
     public function setListIndex($listIndex) {
         $this->listIndex = $listIndex;
+    }
+
+    public function hasChanged() {
+        return $this->changed;
     }
 
     public function jsonSerialize() {

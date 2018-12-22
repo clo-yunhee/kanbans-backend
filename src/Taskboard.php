@@ -26,9 +26,13 @@ class Taskboard implements JsonSerializable
     /** @OneToMany(targetEntity="Tasklist", mappedBy="board") */
     protected $lists;
 
+    /* marker for update */
+    private $changed;
+
     public function __construct() {
         $this->createdOn = new DateTime("now");
         $this->lists = new ArrayCollection();
+        $this->changed = false;
     }
 
     public function getId() {
@@ -45,6 +49,7 @@ class Taskboard implements JsonSerializable
 
     public function setUpdatedOn() {
         $this->updatedOn = new DateTime("now");
+        $this->changed = true;
     }
 
     public function getBoardName() {
@@ -53,10 +58,15 @@ class Taskboard implements JsonSerializable
 
     public function setBoardName($boardName) {
         $this->boardName = $boardName;
+        $this->setUpdatedOn();
     }
 
     public function getLists() {
         return $this->lists;
+    }
+
+    public function hasChanged() {
+        return $this->changed;
     }
 
     public function jsonSerialize() {

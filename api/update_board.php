@@ -16,18 +16,13 @@ if (!isset($taskboard)) {
     dieWithError("Board not found");
 }
 
-$changed = false;
-
 if (array_key_exists('boardName', $data)) {
     $taskboard->setBoardName($data['boardName']);
-    $changed = true;
 }
 
-if (!$changed) {
+if (!$taskboard->hasChanged()) {
     dieWithError("Board not updated");
 }
-
-$taskboard->setUpdatedOn();
 
 $entityManager->persist($taskboard);
 $entityManager->flush();

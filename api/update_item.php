@@ -25,8 +25,7 @@ if ($srcList->getBoard()->getId() != $boardId) {
     dieWithError("Parent list does not belong to this board");
 }
 
-$doChangeList = ($srcList->getId() != $listId);
-if ($doChangeList) {
+if ($srcList->getId() != $listId) {
     // check if dest list exists
     $destList = $entityManager->find('Tasklist', $listId);
 
@@ -37,18 +36,12 @@ if ($doChangeList) {
     if ($destList->getBoard()->getId() != $boardId) {
         dieWithError("New parent list does not belong to this board");
     }
-}
 
-$changed = false;
-
-if ($doChangeList) {
     $taskitem->setList($destList);
-    $changed = true;
 }
 
 if (array_key_exists('content', $data)) {
     $taskitem->setContent($data['content']);
-    $changed = true;
 }
 
 if (array_key_exists('listIndex', $data)) {
@@ -59,14 +52,11 @@ if (array_key_exists('listIndex', $data)) {
     }
 
     $taskitem->setListIndex($listIndex);
-    $changed = true;
 }
 
-if (!$changed) {
+if (!$taskitem->hasChanged()) {
     dieWithError("Item not updated");
 }
-
-$taskitem->setUpdatedOn();
 
 $entityManager->persist($taskitem);
 $entityManager->flush();

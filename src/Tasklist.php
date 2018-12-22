@@ -33,10 +33,14 @@ class Tasklist implements JsonSerializable
     /** @Column(type="integer") **/
     protected $columnIndex;
 
+    /* marker for update */
+    private $changed;
+
     public function __construct($columnIndex) {
         $this->createdOn = new DateTime("now");
         $this->items = new ArrayCollection();
         $this->columnIndex = $columnIndex;
+        $this->changed = false;
     }
 
     public function getId() {
@@ -61,6 +65,7 @@ class Tasklist implements JsonSerializable
 
     public function setUpdatedOn() {
         $this->updatedOn = new DateTime("now");
+        $this->changed = true;
     }
 
     public function getListName() {
@@ -69,6 +74,7 @@ class Tasklist implements JsonSerializable
 
     public function setListName($listName) {
         $this->listName = $listName;
+        $this->setUpdatedOn();
     }
 
     public function getItems() {
@@ -81,6 +87,11 @@ class Tasklist implements JsonSerializable
 
     public function setColumnIndex($columnIndex) {
         $this->columnIndex = $columnIndex;
+        $this->setUpdatedOn();
+    }
+
+    public function hasChanged() {
+        return $this->changed;
     }
 
     public function jsonSerialize() {
