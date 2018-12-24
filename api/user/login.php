@@ -12,7 +12,8 @@ $username = $data['username']
 $password = $data['password']
     ?? dieWithError("Password missing");
 
-$user = $entityManager->find('User', $username)
+$userRep = $entityManager->getRepository('User');
+$user = $userRep->findOneBy([ "username" => $username ])
     ?? dieWithError("User not found");
 
 $hash = $user->getHash();
@@ -21,11 +22,10 @@ if (!verifyPassword($password, $hash)) {
     dieWithError("Wrong password");
 }
 
-// todo generate session token
-$sessionToken = 'placeholder';
+$ut = UserToken::generate($user);
 
 dieOk([
-    sessionToken => $sessionToken,
+    "sessionToken" => $ut->getToken(),
 ]);
 
 

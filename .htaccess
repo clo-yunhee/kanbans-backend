@@ -29,7 +29,8 @@ RewriteRule ^api/update/list$ api/update/list.php [L]
 RewriteRule ^api/update/item$ api/update/item.php [L]
 
 #/user/
-RewriteRule ^api/user/auth$ api/user/auth.php [L]
+RewriteRule ^api/user/login$ api/user/login.php [L]
+RewriteRule ^api/user/create$ api/user/create.php [L]
 
 # Everything else is redirected to home page.
 
