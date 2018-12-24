@@ -14,9 +14,9 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)/$ /$1/ [L,R] 
 
 #/get/
-RewriteRule ^api/get/(.+)$ api/get/board.php?board_id=$1 [L]
-RewriteRule ^api/get/(.+)/(.+)$ /api/get/list.php?board_id=$1&list_id=$2 [L]
-RewriteRule ^api/get/(.+)/(.+)/(.+)$ /api/get/item.php?board_id=$1&list_id=$2item_id=$3 [L]
+RewriteRule ^api/get/([a-fA-F0-9-]+)$ api/get/board.php?board_id=$1 [L]
+RewriteRule ^api/get/([a-fA-F0-9-]+)/([0-9]+)$ /api/get/list.php?board_id=$1&list_id=$2 [L]
+RewriteRule ^api/get/([a-fA-F0-9-]+)/([0-9]+)/([0-9]+)$ /api/get/item.php?board_id=$1&list_id=$2&item_id=$3 [L]
 
 #/new/
 RewriteRule ^api/new/board$ api/new/board.php [L]
@@ -32,14 +32,15 @@ RewriteRule ^api/update/item$ api/update/item.php [L]
 RewriteRule ^api/user/login$ api/user/login.php [L]
 RewriteRule ^api/user/create$ api/user/create.php [L]
 
+# Comment out the first line when deploying.
+
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST"
+Header set Access-Control-Allow-Headers "Content-type"
+
 # Everything else is redirected to home page.
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^.*$ /home [L]
 
 
-# Comment out the first line when deploying.
-
-Header set Access-Control-Allow-Origin "*"
-Header set Access-Control-Allow-Methods "GET, POST"
-Header set Access-Control-Allow-Headers "Content-type"
