@@ -20,10 +20,6 @@ if (array_key_exists('boardName', $data)) {
     $taskboard->setBoardName($data['boardName']);
 }
 
-if (!$taskboard->hasChanged()) {
-    dieWithError("Board not updated");
-}
-
 $entityManager->persist($taskboard);
 $entityManager->flush();
 

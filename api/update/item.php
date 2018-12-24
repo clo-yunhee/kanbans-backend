@@ -54,10 +54,6 @@ if (array_key_exists('listIndex', $data)) {
     $taskitem->setListIndex($listIndex);
 }
 
-if (!$taskitem->hasChanged()) {
-    dieWithError("Item not updated");
-}
-
 $entityManager->persist($taskitem);
 $entityManager->flush();
 

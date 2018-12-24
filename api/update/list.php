@@ -36,10 +36,6 @@ if (array_key_exists('columnIndex', $data)) {
     $tasklist->setColumnIndex($columnIndex);
 }
 
-if (!$tasklist->hasChanged()) {
-    dieWithError("List not updated");
-}
-
 $entityManager->persist($tasklist);
 $entityManager->flush();
 
