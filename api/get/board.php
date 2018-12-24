@@ -1,6 +1,6 @@
 <?php
 
-require_once "../src/bootstrap.php";
+require_once "../../src/bootstrap.php";
 
 $boardId = $_GET['board_id'];
 

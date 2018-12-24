@@ -1,6 +1,6 @@
 <?php
 
-require_once "../src/bootstrap.php";
+require_once "../../../src/bootstrap.php";
 
 $rawData = file_get_contents('php://input');
 $data = json_decode($rawData, true);

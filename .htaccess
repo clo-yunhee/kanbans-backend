@@ -12,17 +12,17 @@ RewriteRule \.git - [F,L]
 
 RewriteRule ^api/(.*)/$ api/$1 
 
-RewriteRule ^api/get/([0-9a-z-]+)$ api/get_board.php?board_id=$1 [L]
-RewriteRule ^api/get/([0-9a-z-]+)/([0-9]+)$ api/get_list.php?board_id=$1&list_id=$2 [L]
-RewriteRule ^api/get/([0-9a-z-]+)/([0-9]+)/([0-9]+)$ api/get_item.php?board_id=$1&list_id=$2item_id=$3 [L]
+RewriteRule ^api/get/([0-9a-z-]+)$ api/get/board.php?board_id=$1 [L]
+RewriteRule ^api/get/([0-9a-z-]+)/([0-9]+)$ api/get/list.php?board_id=$1&list_id=$2 [L]
+RewriteRule ^api/get/([0-9a-z-]+)/([0-9]+)/([0-9]+)$ api/get/item.php?board_id=$1&list_id=$2item_id=$3 [L]
 
-RewriteRule ^api/new/board$ api/new_board.php [L]
-RewriteRule ^api/new/list$ api/new_list.php [L]
-RewriteRule ^api/new/item$ api/new_item.php [L]
+RewriteRule ^api/new/board$ api/new/board.php [L]
+RewriteRule ^api/new/list$ api/new/list.php [L]
+RewriteRule ^api/new/item$ api/new/item.php [L]
 
-RewriteRule ^api/update/board$ api/update_board.php [L]
-RewriteRule ^api/update/list$ api/update_list.php [L]
-RewriteRule ^api/update/item$ api/update_item.php [L]
+RewriteRule ^api/update/board$ api/update/board.php [L]
+RewriteRule ^api/update/list$ api/update/list.php [L]
+RewriteRule ^api/update/item$ api/update/item.php [L]
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^api/(.*)\.php [L,R=404]
