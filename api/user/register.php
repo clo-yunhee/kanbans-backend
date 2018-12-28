@@ -27,6 +27,9 @@ $entityManager->flush();
 
 $ut = UserToken::generate($user);
 
+$entityManager->persist($ut);
+$entityManager->flush();
+
 dieOk([
     "username" => $user->getUsername(),
     "sessionToken" => $ut->getToken(),

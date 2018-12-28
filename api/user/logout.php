@@ -15,8 +15,8 @@ $token = $tokenRep->findOneBy([ "token" => $sessionToken ]);
 /** /!\ Fail silently if the token doesn't exist. */
 
 if (isset($token)) {
-    $tokenRep->remove($token);
-    $tokenRep->flush();
+    $entityManager->remove($token);
+    $entityManager->flush();
 }
 
 dieOk(null);
