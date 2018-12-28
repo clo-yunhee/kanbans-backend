@@ -26,6 +26,13 @@ class Taskboard implements JsonSerializable
     /** @OneToMany(targetEntity="Tasklist", mappedBy="board") */
     protected $lists;
 
+    /** @ManyToOne(targetEntity="User", inversedBy="ownedBoards")
+        @JoinColumn(name="userId", referencedColumnName="id") **/
+    protected $owner;
+
+    /** @OneToMany(targetEntity="Sharing", mappedBy="board") **/
+    protected $sharedWith;
+
     /* marker for update */
     private $changed;
 
@@ -33,6 +40,7 @@ class Taskboard implements JsonSerializable
         $this->createdOn = new DateTime("now");
         $this->lists = new ArrayCollection();
         $this->changed = false;
+        $this->sharedWith = new ArrayCollection();
     }
 
     public function getId() {
@@ -64,6 +72,19 @@ class Taskboard implements JsonSerializable
     public function getLists() {
         return $this->lists;
     }
+    
+    public function getOwner() {
+        return $this->owner;
+    }
+
+    public function setOwner($owner) {
+        $this->owner = $owner;
+        $this->setUpdatedOn();
+    }
+
+    public function getSharedWith() {
+        return $this->sharedWith;
+    }
 
     public function hasChanged() {
         return $this->changed;
@@ -76,6 +97,7 @@ class Taskboard implements JsonSerializable
             "updatedOn" => $this->updatedOn ? $this->updatedOn->getTimestamp() : null,
             "boardName" => $this->boardName,
             "lists" => $this->lists->toArray(),
+            "owner" => $this->owner->getUsername(),
         ];
     }
 }

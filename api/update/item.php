@@ -5,7 +5,6 @@ require_once "../../src/bootstrap.php";
 $rawData = file_get_contents('php://input');
 $data = json_decode($rawData, true);
 
-$boardId = $data['boardId'];
 $listId = $data['listId'];
 $itemId = $data['_id'];
 
@@ -21,10 +20,6 @@ if (!isset($taskitem)) {
 
 $srcList = $taskitem->getList();
 
-if ($srcList->getBoard()->getId() != $boardId) {
-    dieWithError("Parent list does not belong to this board");
-}
-
 if ($srcList->getId() != $listId) {
     // check if dest list exists
     $destList = $entityManager->find('Tasklist', $listId);
@@ -33,7 +28,7 @@ if ($srcList->getId() != $listId) {
         dieWithError("New parent list not found");
     }
 
-    if ($destList->getBoard()->getId() != $boardId) {
+    if ($destList->getBoard()->getId() != $srcList->getBoard()->getId()) {
         dieWithError("New parent list does not belong to this board");
     }
 

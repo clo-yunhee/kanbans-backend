@@ -35,6 +35,9 @@ class User
     /** @OneToMany(targetEntity="UserToken", mappedBy="user") **/
     protected $tokens;
 
+    /** @OneToMany(targetEntity="Taskboard", mappedBy="owner") **/
+    protected $ownedBoards;
+
     public function __construct($username) {
         $this->createdOn = new DateTime("now");
         $this->username = $username;
