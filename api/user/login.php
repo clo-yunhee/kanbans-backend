@@ -25,6 +25,7 @@ if (!verifyPassword($password, $hash)) {
 $ut = UserToken::generate($user);
 
 dieOk([
+    "username" => $user->getUsername(),
     "sessionToken" => $ut->getToken(),
 ]);
 
