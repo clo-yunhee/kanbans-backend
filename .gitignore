@@ -3,3 +3,13 @@ config/app.php
 composer.phar
 *.swp
 *.nfs*
+
+
+# Ignore CRA build files
+
+*.json
+*.ico
+*.html
+*.json
+*.js
+static/
