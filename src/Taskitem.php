@@ -32,9 +32,8 @@ class Taskitem implements JsonSerializable
     /* marker for update */
     private $changed;
 
-    public function __construct($listIndex) {
+    public function __construct() {
         $this->createdOn = new DateTime("now");
-        $this->listIndex = $listIndex;
         $this->changed = false;
     }
 

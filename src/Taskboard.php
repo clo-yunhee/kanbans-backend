@@ -27,7 +27,7 @@ class Taskboard implements JsonSerializable
     protected $lists;
 
     /** @ManyToOne(targetEntity="User", inversedBy="ownedBoards")
-        @JoinColumn(name="userId", referencedColumnName="id") **/
+        @JoinColumn(name="ownerId", referencedColumnName="id") **/
     protected $owner;
 
     /** @OneToMany(targetEntity="Sharing", mappedBy="board") **/

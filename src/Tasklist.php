@@ -36,7 +36,7 @@ class Tasklist implements JsonSerializable
     /* marker for update */
     private $changed;
 
-    public function __construct($columnIndex) {
+    public function __construct() {
         $this->createdOn = new DateTime("now");
         $this->items = new ArrayCollection();
         $this->columnIndex = $columnIndex;
