@@ -35,7 +35,9 @@ $tasklist->setColumnIndex($columnIndex);
 $entityManager->persist($tasklist);
 $entityManager->flush();
 
-dieOk($tasklist);
+dieOk($tasklist->getBoard()
+               ->getLists()
+               ->toArray());
 
 
 

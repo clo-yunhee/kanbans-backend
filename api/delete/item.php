@@ -5,9 +5,18 @@ require_once "../../src/bootstrap.php";
 $rawData = file_get_contents('php://input');
 $data = json_decode($rawData, true);
 
+$itemId = $data['_id'];
 $listId = $data['listId'];
-$content = $data['content'];
-$listIndex = $data['listIndex'];
+
+if (!isset($itemId)) {
+    dieWithError("Item id missing");
+}
+
+$taskitem = $entityManager->find('Taskitem', $itemId);
+
+if (!isset($taskitem)) {
+    dieWithError("Item not found");
+}
 
 if (!isset($listId)) {
     dieWithError("Parent list identifier missing");
@@ -19,20 +28,7 @@ if (!isset($parentList)) {
     dieWithError("Parent list not found");
 }
 
-if (!isset($content)) {
-    dieWithError("Item content missing");
-}
-
-if (!isset($listIndex)) {
-    dieWithError("Item list index missing");
-}
-
-$taskitem = new Taskitem($listIndex);
-$taskitem->setList($parentList);
-$taskitem->setContent($content);
-$taskitem->setListIndex($listIndex);
-
-$entityManager->persist($taskitem);
+$entityManager->remove($taskitem);
 $entityManager->flush();
 
 dieOk($taskitem->getList()

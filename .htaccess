@@ -28,6 +28,11 @@ RewriteRule ^api/update/board$ api/update/board.php [L]
 RewriteRule ^api/update/list$ api/update/list.php [L]
 RewriteRule ^api/update/item$ api/update/item.php [L]
 
+#/delete/
+RewriteRule ^api/delete/board$ api/delete/board.php [L]
+RewriteRule ^api/delete/list$ api/delete/list.php [L]
+RewriteRule ^api/delete/item$ api/delete/item.php [L]
+
 #/user/
 RewriteRule ^api/user/login$ api/user/login.php [L]
 RewriteRule ^api/user/register$ api/user/register.php [L]
