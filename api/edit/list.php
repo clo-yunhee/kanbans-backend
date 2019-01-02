@@ -26,16 +26,6 @@ if (array_key_exists('listName', $data)) {
     $tasklist->setListName($data['listName']);
 }
 
-if (array_key_exists('columnIndex', $data)) {
-    $columnIndex = $data['columnIndex'];
-
-    if (!is_int($columnIndex)) {
-        dieWithError("List column index not an integer");
-    }
-
-    $tasklist->setColumnIndex($columnIndex);
-}
-
 $entityManager->persist($tasklist);
 $entityManager->flush();
 

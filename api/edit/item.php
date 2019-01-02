@@ -39,16 +39,6 @@ if (array_key_exists('content', $data)) {
     $taskitem->setContent($data['content']);
 }
 
-if (array_key_exists('listIndex', $data)) {
-    $listIndex = $data['listIndex'];
-    
-    if (!is_int($listIndex)) {
-        dieWithError("Item list index not an integer");
-    }
-
-    $taskitem->setListIndex($listIndex);
-}
-
 $entityManager->persist($taskitem);
 $entityManager->flush();
 

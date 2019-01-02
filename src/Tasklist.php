@@ -24,7 +24,7 @@ class Tasklist implements JsonSerializable
     /** @Column(type="datetimetz", nullable=TRUE) **/
     protected $updatedOn;
 
-    /** @Column(type="string") **/
+    /** @Column(type="text") **/
     protected $listName;
 
     /** @OneToMany(targetEntity="Taskitem", mappedBy="list") */
@@ -101,7 +101,7 @@ class Tasklist implements JsonSerializable
             "createdOn" => $this->createdOn->getTimestamp(),
             "updatedOn" => $this->updatedOn ? $this->updatedOn->getTimestamp() : null,
             "listName" => $this->listName,
-            "items" => $this->items->toArray(),
+            "items" => $this->items->getValues(),
             "columnIndex" => $this->columnIndex,
         ];
     }

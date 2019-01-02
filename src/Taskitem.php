@@ -23,7 +23,7 @@ class Taskitem implements JsonSerializable
     /** @Column(type="datetimetz", nullable=TRUE) **/
     protected $updatedOn;
 
-    /** @Column(type="string") **/
+    /** @Column(type="text") **/
     protected $content;
 
     /** @Column(type="integer") **/ 

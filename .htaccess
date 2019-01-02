@@ -18,15 +18,19 @@ RewriteRule ^api/get/([a-fA-F0-9-]+)$ api/get/board.php?board_id=$1 [L]
 RewriteRule ^api/get/([a-fA-F0-9-]+)/([0-9]+)$ /api/get/list.php?board_id=$1&list_id=$2 [L]
 RewriteRule ^api/get/([a-fA-F0-9-]+)/([0-9]+)/([0-9]+)$ /api/get/item.php?board_id=$1&list_id=$2&item_id=$3 [L]
 
-#/new/
-RewriteRule ^api/new/board$ api/new/board.php [L]
-RewriteRule ^api/new/list$ api/new/list.php [L]
-RewriteRule ^api/new/item$ api/new/item.php [L]
+#/create/
+RewriteRule ^api/create/board$ api/create/board.php [L]
+RewriteRule ^api/create/list$ api/create/list.php [L]
+RewriteRule ^api/create/item$ api/create/item.php [L]
 
-#/update/
-RewriteRule ^api/update/board$ api/update/board.php [L]
-RewriteRule ^api/update/list$ api/update/list.php [L]
-RewriteRule ^api/update/item$ api/update/item.php [L]
+#/edit/
+RewriteRule ^api/edit/board$ api/edit/board.php [L]
+RewriteRule ^api/edit/list$ api/edit/list.php [L]
+RewriteRule ^api/edit/item$ api/edit/item.php [L]
+
+#/move/
+RewriteRule ^api/move/list$ api/move/list.php [L]
+RewriteRule ^api/move/item$ api/move/item.php [L]
 
 #/delete/
 RewriteRule ^api/delete/board$ api/delete/board.php [L]

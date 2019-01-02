@@ -20,7 +20,7 @@ class Taskboard implements JsonSerializable
     /** @Column(type="datetimetz", nullable=TRUE) **/
     protected $updatedOn;
 
-    /** @Column(type="string") **/
+    /** @Column(type="text") **/
     protected $boardName;
 
     /** @OneToMany(targetEntity="Tasklist", mappedBy="board") */
