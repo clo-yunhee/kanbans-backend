@@ -1,44 +1,29 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
+$startItemId = safeGet('startItemId');
+$startListId = safeGet('startListId');
+$startIndex = safeGet('startListIndex');
+$endListId = safeGet('endListId'):
+$endIndex = safeGet('endListIndex');
 
-$startItemId = $data['startItemId']
-    ?? dieWithError("Start item id missing");
-
-$startListId = $data['startListId']
-    ?? dieWithError("Start list id missing");
-
-$startIndex = $data['startListIndex']
-    ?? dieWithError("Start list index missing");
-
-$endListId = $data['endListId']
-    ?? dieWithError("End list id missing");
-
-$endIndex = $data['endListIndex']
-    ?? dieWithError("End list index missing");
-
-$startItem = $entityManager->find('Taskitem', $startItemId)
-    ?? dieWithError("Start item not found");
+$startItem = safeFind('Taskitem', $startItemId);
 
 if ($startItem->getListIndex() !== $startIndex) {
     dieWithError("Start item index mismatch");
 }
 
-$startList = $entityManager->find('Tasklist', $startListId)
-    ?? dieWithError("Start list not found");
+$startList = safeFind('Tasklist', $startListId);
 
 if ($startItem->getList()->getId() !== $startList->getId()) {
-    dieWithError("Start item doesn't belong to the start list");
+    dieWithError("Start parent list mismatch");
 }
 
-$endList = $entityManager->find('Tasklist', $endListId)
-    ?? dieWithError("End list not found");
+$endList = safeFind('Tasklist', $endListId);
 
 if ($startList->getBoard()->getId() !== $endList->getBoard()->getId()) {
-    dieWithError("Start and end lists don't belong to the same board");
+    dieWithError("Parent board mismatch");
 }
 
 $startItems = $startList->getItems();

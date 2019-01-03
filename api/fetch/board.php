@@ -1,14 +1,9 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
+$boardId = safeGet('_id');
 
-$boardId = $data['_id']
-    ?? dieWithError("Board id missing");
-
-$taskboard = $entityManager->find('Taskboard', $boardId)
-    ?? dieWithError("Board not found");
+$taskboard = safeFind('Taskboard', $boardId);
 
 dieOk($taskboard);

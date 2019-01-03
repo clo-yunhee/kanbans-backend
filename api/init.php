@@ -1,6 +1,6 @@
 <?php
 
-require_once "../src/bootstrap.php";
+require_once "../../src/bootstrap.php";
 
 // generate error output
 // comment out the msg key in production
@@ -30,7 +30,9 @@ function checkExists($var, $msg) {
 
 // get json key or die if unset
 function safeGet($key) {
-    if (!array_key_exists($jsonData, $key)) {
+    global $jsonData;
+
+    if (!array_key_exists($key, $jsonData)) {
         dieWithError(ucfirst($key).' missing');
     }
     return $jsonData[$key];
@@ -38,19 +40,25 @@ function safeGet($key) {
 
 // find by id
 function safeFind($entityName, $key) {
-    $obj = $entityManager->find($entityManager, $key);
+    global $entityManager;
+
+    $obj = $entityManager->find($entityName, $key);
     if ($obj === null) {
         dieWithError(ucfirst($entityName).' not found');
     }
+    return $obj;
 }
 
 // find by criteria
 function safeFindOne($entityName, $criteria) {
+    global $entityManager;
+
     $rep = $entityManager->getRepository($entityName);
     $obj = $rep->findOneBy($criteria);
     if ($obj === null) {
         dieWithError(ucfirst($entityName).' not found');
     }
+    return $obj;
 }
 
 

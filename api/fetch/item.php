@@ -1,21 +1,14 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
+$listId = safeGet('listId');
+$itemId = safeGet('_id');
 
-$listId = $data['listId']
-    ?? dieWithError("List id missing");
-
-$itemId = $data['_id']
-    ?? dieWithError("Item id missing");
-
-$taskitem = $entityManager->find('Taskitem', $itemId)
-    ?? dieWithError("Item not found");
+$taskitem = safeFind('Taskitem', $itemId);
 
 if ($taskitem->getList()->getId() != $listId) {
-    dieWithError("Item does not belong to this list");
+    dieWithError("Parent list mismatch");
 }
 
 dieOk($taskitem);

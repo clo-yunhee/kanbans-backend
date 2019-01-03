@@ -1,46 +1,21 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
+$listId = safeGet('listId');
+$itemId = safeGet('_id');
+$content = safeGet('content');
 
-$listId = $data['listId'];
-$itemId = $data['_id'];
+$taskitem = safeFind('Taskitem', $itemId);
+$parentList = safeFind('Tasklist', $listId);
 
-if (!isset($itemId)) {
-    dieWithError("Item id missing");
+if ($taskitem->getList()->getId() !== $parentList->getId()) {
+    dieWithError("Parent list mismatch");
 }
 
-$taskitem = $entityManager->find('Taskitem', $itemId);
-
-if (!isset($taskitem)) {
-    dieWithError("Item not found");
-}
-
-$srcList = $taskitem->getList();
-
-if ($srcList->getId() != $listId) {
-    // check if dest list exists
-    $destList = $entityManager->find('Tasklist', $listId);
-
-    if (!isset($destList)) {
-        dieWithError("New parent list not found");
-    }
-
-    if ($destList->getBoard()->getId() != $srcList->getBoard()->getId()) {
-        dieWithError("New parent list does not belong to this board");
-    }
-
-    $taskitem->setList($destList);
-}
-
-if (array_key_exists('content', $data)) {
-    $taskitem->setContent($data['content']);
-}
+$taskitem->setContent($content);
 
 $entityManager->persist($taskitem);
 $entityManager->flush();
 
 dieOk($taskitem);
-

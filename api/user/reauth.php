@@ -1,17 +1,13 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
-
-$sessionToken = $data['sessionToken']
-    ?? dieWithError("Session token missing");
+$sessionToken = safeGet('sessionToken');
 
 $tokenRep = $entityManager->getRepository('UserToken');
 $token = $tokenRep->findOneBy([ "token" => $sessionToken ]);
 
-$valid = isset($token);
+$valid = ($token !== null);
 
 if ($valid) {
     // add other checks, like expiration, etc.

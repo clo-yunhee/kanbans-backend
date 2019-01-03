@@ -1,30 +1,18 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
+$boardId = safeGet('boardId');
+$listId = safeGet('_id');
+$listName = safeGet('listName');
 
-$boardId = $data['boardId'];
-$listId = $data['_id'];
-
-if (!isset($listId)) {
-    dieWithError("List id missing");
-}
-
-$tasklist = $entityManager->find('Tasklist', $listId);
-
-if (!isset($tasklist)) {
-    dieWithError("List not found");
-}
+$tasklist = safeFind('Tasklist', $listId);
 
 if ($tasklist->getBoard()->getId() != $boardId) {
-    dieWithError("List does not belong to this board");
+    dieWithError("Parent board mismatch");
 }
 
-if (array_key_exists('listName', $data)) {
-    $tasklist->setListName($data['listName']);
-}
+$tasklist->setListName($listName);
 
 $entityManager->persist($tasklist);
 $entityManager->flush();
