@@ -13,10 +13,10 @@ RewriteRule ^home index.html [L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)/$ /$1/ [L,R] 
 
-#/get/
-RewriteRule ^api/get/([a-fA-F0-9-]+)$ api/get/board.php?board_id=$1 [L]
-RewriteRule ^api/get/([a-fA-F0-9-]+)/([0-9]+)$ /api/get/list.php?board_id=$1&list_id=$2 [L]
-RewriteRule ^api/get/([a-fA-F0-9-]+)/([0-9]+)/([0-9]+)$ /api/get/item.php?board_id=$1&list_id=$2&item_id=$3 [L]
+#/fetch/
+RewriteRule ^api/fetch/board$ api/fetch/board.php [L]
+RewriteRule ^api/fetch/list$ api/fetch/list.php [L]
+RewriteRule ^api/fetch/item$ api/fetch/item.php [L]
 
 #/create/
 RewriteRule ^api/create/board$ api/create/board.php [L]

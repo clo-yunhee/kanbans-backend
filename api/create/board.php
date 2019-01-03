@@ -1,18 +1,12 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
-
-$boardName = $data['boardName'];
-
-if (!isset($boardName)) {
-    dieWithError("Board name missing");
-}
+$boardName = safeGet('boardName');
 
 $taskboard = new Taskboard();
 $taskboard->setBoardName($boardName);
+
 $entityManager->persist($taskboard);
 $entityManager->flush();
 

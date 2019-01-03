@@ -2,8 +2,6 @@
 
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__DIR__));
 
-header('Content-Type: application/json');
-
 require_once "vendor/autoload.php";
 
 use Doctrine\ORM\Tools\Setup;
@@ -24,20 +22,3 @@ $entityManager = EntityManager::create([
     'host' => DB_HOST
 ], $config);
 
-// generate error output
-function dieWithError($msg) {
-    echo json_encode([
-        "error" => true,
-        "msg" => $msg
-    ]);
-    die();
-}
-
-// generate no error ouput
-function dieOk($data) {
-    echo json_encode([
-        "error" => false,
-        "res" => $data
-    ]);
-    die();
-}

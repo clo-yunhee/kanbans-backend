@@ -1,31 +1,12 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
+$boardId = safeGet('boardId');
+$listName = safeGet('listName');
+$columnIndex = safeGet('columnIndex');
 
-$boardId = $data['boardId'];
-$listName = $data['listName'];
-$columnIndex = $data['columnIndex'];
-
-if (!isset($boardId)) {
-    dieWithError("Parent board identifier missing");
-}
-
-$parentBoard = $entityManager->find('Taskboard', $boardId);
-
-if (!isset($parentBoard)) {
-    dieWithError("Parent board not found");
-}
-
-if (!isset($listName)) {
-    dieWithError("List name missing");
-}
-
-if (!isset($columnIndex)) {
-    dieWithError("List column index missing");
-}
+$parentBoard = safeFind('Taskboard', $boardId);
 
 $tasklist = new Tasklist();
 $tasklist->setBoard($parentBoard);

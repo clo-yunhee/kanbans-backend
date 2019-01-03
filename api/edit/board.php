@@ -1,24 +1,13 @@
 <?php
 
-require_once "../../src/bootstrap.php";
+require_once "../init.php";
 
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
-$boardId = $data['_id'];
+$boardId = safeGet('_id');
+$boardName = safeGet('boardName');
 
-if (!isset($boardId)) {
-    dieWithError("Board id missing");
-}
+$taskboard = safeFind('Taskboard', $boardId);
 
-$taskboard = $entityManager->find('Taskboard', $boardId);
-
-if (!isset($taskboard)) {
-    dieWithError("Board not found");
-}
-
-if (array_key_exists('boardName', $data)) {
-    $taskboard->setBoardName($data['boardName']);
-}
+$taskboard->setBoardName($boardName);
 
 $entityManager->persist($taskboard);
 $entityManager->flush();
