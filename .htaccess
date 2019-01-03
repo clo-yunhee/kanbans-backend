@@ -10,6 +10,8 @@ RewriteRule ^home index.html [L]
 
 # API routes
 
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)/$ /$1/ [L,R] 
 
@@ -47,7 +49,7 @@ RewriteRule ^api/user/reauth$ api/user/reauth.php [L]
 
 Header set Access-Control-Allow-Origin "*"
 Header set Access-Control-Allow-Methods "GET, POST"
-Header set Access-Control-Allow-Headers "Content-type"
+Header set Access-Control-Allow-Headers "Content-type, Authorization"
 
 # Everything else is redirected to home page.
 

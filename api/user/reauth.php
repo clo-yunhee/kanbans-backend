@@ -2,33 +2,22 @@
 
 require_once "../init.php";
 
-$sessionToken = safeGet('sessionToken');
+$headerToken = getToken();
+$postToken = safeGet('sessionToken');
 
-$tokenRep = $entityManager->getRepository('UserToken');
-$token = $tokenRep->findOneBy([ "token" => $sessionToken ]);
-
-$valid = ($token !== null);
-
-if ($valid) {
-    // add other checks, like expiration, etc.
-
-    if (!$valid) {
-        $entityManager->remove($token);
-        $entityManager->flush();
-    }
+if ($headerToken != $postToken) {
+    dieWithError("Token mismatch");
 }
 
-$data = [
-    "valid" => $valid
-];
+$token = safeAuth($headerToken);
 
-if ($valid) {
-    $data += [
-        "username" => $token->getUser()->getUsername(),
-        "sessionToken" => $token->getToken(),
-    ]; 
+if ($token == false) {
+    dieOk([ "valid" => false ]);
 }
 
-dieOk($data);
-
+dieOk([
+    "valid" => true,
+    "username" => $token->getUser()->getUsername(),
+    "sessionToken" => $token->getToken(),
+]);
 

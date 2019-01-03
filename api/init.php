@@ -61,7 +61,45 @@ function safeFindOne($entityName, $criteria) {
     return $obj;
 }
 
+// get auth token from request
+function getToken() {
+    global $authToken;
+
+    if (!isset($authToken)) {
+        $headers = apache_request_headers();
+        $matches = [];
+        preg_match('/Token (.*)/', $headers['Authorization'], $matches);
+        if (isset($matches[1])) {
+            $authToken = $matches[1];
+        }
+    }
+
+    return $authToken;
+}
+
+// get authenticated user
+function safeAuth($token = null) {
+    global $entityManager;
+
+    $tokenRep = $entityManager->getRepository('UserToken');
+    $tokenObj = $tokenRep->findOneBy([ "token" => $token ?? getToken() ]);
+    if ($tokenObj === null) {
+        return false;
+    }
+
+    $valid = true; // add more checks
+
+    if (!$valid) {
+        $entityManager->remove($tokenObj);
+        $entityManager->flush();
+        return false;
+    }
+
+    return $tokenObj;
+}
 
 header('Content-Type: application/json');
 
 $jsonData = json_decode(file_get_contents('php://input'), true);
+
+
