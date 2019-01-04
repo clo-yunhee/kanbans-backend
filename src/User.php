@@ -42,6 +42,7 @@ class User
         $this->createdOn = new DateTime("now");
         $this->username = $username;
         $this->tokens = new ArrayCollection();
+        $this->ownedBoards = new ArrayCollection();
     }
 
     public function getId() {
@@ -74,6 +75,10 @@ class User
 
     public function getTokens() {
         return $this->tokens;
+    }
+
+    public function getOwnedBoards() {
+        return $this->ownedBoards;
     }
 
 }

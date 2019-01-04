@@ -30,6 +30,9 @@ class Taskboard implements JsonSerializable
         @JoinColumn(name="ownerId", referencedColumnName="id") **/
     protected $owner;
 
+    /** @Column(type="boolean") **/
+    protected $sharedPublic;
+
     /** @OneToMany(targetEntity="Sharing", mappedBy="board") **/
     protected $sharedWith;
 
@@ -40,6 +43,7 @@ class Taskboard implements JsonSerializable
         $this->createdOn = new DateTime("now");
         $this->lists = new ArrayCollection();
         $this->changed = false;
+        $this->sharedPublic = false;
         $this->sharedWith = new ArrayCollection();
     }
 
@@ -80,6 +84,14 @@ class Taskboard implements JsonSerializable
     public function setOwner($owner) {
         $this->owner = $owner;
         $this->setUpdatedOn();
+    }
+
+    public function getSharedPublic() {
+        return $this->sharedPublic;
+    }
+
+    public function setSharedPublic($public) {
+        $this->sharedPublic = $public;
     }
 
     public function getSharedWith() {

@@ -44,6 +44,8 @@ RewriteRule ^api/user/login$ api/user/login.php [L]
 RewriteRule ^api/user/register$ api/user/register.php [L]
 RewriteRule ^api/user/logout$ api/user/logout.php [L]
 RewriteRule ^api/user/reauth$ api/user/reauth.php [L]
+RewriteRule ^api/user/owned$ api/user/owned.php [L]
+RewriteRule ^api/user/shared$ api/user/shared.php [L]
 
 # Comment out the first line when deploying.
 

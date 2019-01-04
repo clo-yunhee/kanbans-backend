@@ -61,14 +61,20 @@ function safeFindOne($entityName, $criteria) {
     return $obj;
 }
 
+function safeFindBy($entityName, $criteria) {
+    global $entityManager;
+
+    $rep = $entityManager->getRepository($entityName);
+    return $rep->findBy($criteria);
+}
+
 // get auth token from request
 function getToken() {
     global $authToken;
 
     if (!isset($authToken)) {
-        $headers = apache_request_headers();
         $matches = [];
-        preg_match('/Token (.*)/', $headers['Authorization'], $matches);
+        preg_match('/Token (.*)/', $_SERVER['HTTP_AUTHORIZATION'], $matches);
         if (isset($matches[1])) {
             $authToken = $matches[1];
         }

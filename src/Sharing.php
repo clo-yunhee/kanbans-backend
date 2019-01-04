@@ -55,7 +55,6 @@ class Sharing implements JsonSerializable {
     public function jsonSerialize() {
         return [
             "boardId" => $this->board->getId(),
-            "username" => $this->user->getUsername(),
             "permissions" => [
                 "view" => $this->canView,
                 "edit" => $this->canEdit,
